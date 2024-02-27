@@ -1,8 +1,29 @@
 package com.example.demo.student;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+
+@Entity
+@Table
 public class Student {
+
+    @Id
+    @SequenceGenerator(
+            name = "Student_S",
+            sequenceName = "Student_S",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "student_sequence"
+    )
+    private Long id;
+    private String name ;
+    private String email ;
+    private LocalDate dateOfBirth ;
+    private Integer age ;
     public Student() {}
 
     public Student(Long id, String name, String email, LocalDate dateOfBirth, Integer age) {
@@ -20,11 +41,7 @@ public class Student {
         this.age = age;
     }
 
-    private Long id;
-    private String name ;
-    private String email ;
-    private LocalDate dateOfBirth ;
-    private Integer age ;
+
 
     public Long getId() {
         return id;
