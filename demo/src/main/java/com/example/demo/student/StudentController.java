@@ -1,9 +1,7 @@
 package com.example.demo.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,11 +13,30 @@ public class StudentController {
 
     @Autowired
     public StudentController(StudentService studentService) {
-        this.studentService = new StudentService() ;
+        this.studentService = studentService ;
     }
 
     @GetMapping
     public List<Student> getStudents(){
         return this.studentService.getStudents();
+    }
+
+    @PostMapping
+    public void registerStudent(@RequestBody Student student){
+        studentService.addNewStudent(student);
+    }
+
+
+    @DeleteMapping(path="{studentId}")
+    public void deleteStudent(@PathVariable("studentId") Long studentId){
+        studentService.deleteStudent(studentId);
+    }
+
+    @PutMapping(path = "{studentId}")
+    public void updateStudent(
+            @PathVariable("studentId") long studentId ,
+            @RequestParam(required = false) String name ,
+            @RequestParam(required=false) String email){
+        studentService.updateStudent(studentId , name , email);
     }
 }
